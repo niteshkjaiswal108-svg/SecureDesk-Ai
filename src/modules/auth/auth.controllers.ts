@@ -1,5 +1,6 @@
 import logger from "@/utils/logger.ts";
 import type { Request, Response } from "express";
+import { getOrCreateUserByAuth0Id } from "../user/user.repositories.ts";
 
 export const getCurrentUser = (req: Request, res: Response) => {
   const auth = (req as any).auth;

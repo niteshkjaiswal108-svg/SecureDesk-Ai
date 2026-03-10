@@ -7,6 +7,12 @@
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["./*"]
+    },
     "module": "nodenext",
     "target": "esnext",
     "types": [],
@@ -41,5 +47,6 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-  }
+  },
+    "include": ["src/**/*"],
 }

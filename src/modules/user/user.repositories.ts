@@ -1,7 +1,7 @@
 // src/modules/user/user.repositories.ts
 import { eq } from "drizzle-orm";
 import { db } from "@/db/db.ts";
-import { users } from "./user.models.ts";
+import { users } from "@/db/schema.ts";
 
 export async function getOrCreateUserByAuth0Id(input: {
   auth0Id: string;

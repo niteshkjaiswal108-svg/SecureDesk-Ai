@@ -1,11 +1,11 @@
 // src/modules/auth/auth.routes.ts
 import { Router } from "express";
-import { requireAuth } from "../../middlewares/auth0.js";
+import { isAuthenticated } from "@/middlewares/auth0.ts";
 import { getCurrentUser, verifyMfa } from "./auth.controllers.ts";
 
 const router = Router();
 
-router.get("/me", requireAuth, getCurrentUser);
-router.post("/verify-mfa", requireAuth, verifyMfa);
+router.get("/me", isAuthenticated, getCurrentUser);
+router.post("/verify-mfa", isAuthenticated, verifyMfa);
 
 export const authRouter = router;

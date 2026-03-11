@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { requireAuth } from "@/middlewares/auth0.ts";
+import { isAuthenticated } from "@/middlewares/auth0.ts";
 import { getMe } from "./user.controllers.ts";
 
 const router = Router();
 
-router.get("/me", requireAuth, getMe);
+router.get("/me", isAuthenticated, getMe);
 
 export const userRouter = router;

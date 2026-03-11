@@ -17,7 +17,7 @@ export const googleCallback = async (req: Request, res: Response) => {
         const tokens = await googleServices.exchangeGoogleCodeForTokens(code);
         return res.json({ message: "Google account connected!", tokens: {
             access_token: tokens.access_token,
-            refresh_toke: tokens.refresh_token
+            refresh_token: tokens.refresh_token
         } });
     } catch (error) {
         res.status(500).json({ error: "Failed to connect Google account" });

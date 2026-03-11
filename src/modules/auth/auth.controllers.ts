@@ -10,29 +10,26 @@ export const getCurrentUser = (req: Request, res: Response) => {
     return res.status(401).json({ error: "Unauthorized" });
   }
 
-  const { sub, email, name, ...rest } = auth.payload as any;
+  const payload = auth.payload as any;
 
-  logger.info("User retrieved successfully", { userId: sub, email });
+  logger.info("User retrieved successfully", { userId: payload.sub, email: payload.email, name: payload.name });
 
   return res.json({
-    id: sub,
-    email,
-    name,
-    claims: rest,
+    id: payload.sub,
+    email: payload.email,
+    name: payload.name,
+    claims: payload,
   });
 };
 
 function hasMfa(authPayload: any) {
-  // Common Auth0 patterns:
-  // - amr includes "mfa" after MFA
-  // - acr indicates a higher assurance level (tenant-specific)
+
   const amr: unknown = authPayload?.amr;
   const acr: unknown = authPayload?.acr;
 
   const amrHasMfa =
     Array.isArray(amr) && amr.some((v) => typeof v === "string" && v.toLowerCase() === "mfa");
 
-  // If you use acr-based step-up, set your expected value (example: "urn:mace:incommon:iap:silver")
   const expectedAcr = process.env.AUTH0_MFA_ACR;
   const acrSatisfied = expectedAcr ? acr === expectedAcr : false;
 

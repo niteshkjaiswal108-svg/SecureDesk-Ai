@@ -1,5 +1,6 @@
 import { db } from "@/db/db.ts";
 import { integrations } from "@/db/schema.ts";
+import { and, eq } from "drizzle-orm";
 
 export async function createIntegration(input: {
     userId: number,
@@ -18,4 +19,16 @@ export async function createIntegration(input: {
         })
         .returning();
     return inserted[0];
+}
+
+export async function deleteIntegration(input: {
+    userId: number,
+    provider: string,
+}) {
+    const { userId, provider } = input;
+    const deleted = await db
+        .delete(integrations)
+        .where(and(eq(integrations.user_id, userId), eq(integrations.provider, provider)))
+        .returning();
+    return deleted[0];
 }

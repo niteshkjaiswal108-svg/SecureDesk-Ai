@@ -39,3 +39,10 @@ export const revokeIntegration = async (req: Request, res: Response) => {
     const revoked = await googleServices.revokeIntegration(provider, userId);
     return res.json({ revoked });
 }
+
+export const getConnectedIntegrations = async (req: Request, res: Response) => {
+    const auth = (req as any).auth;
+    const userId = auth.payload.sub;
+    const integrations = await googleServices.getConnectedIntegrations(userId);
+    return res.json({ integrations });
+}

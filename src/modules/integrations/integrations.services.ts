@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { createIntegration } from "./integrations.repositories.ts";
+import { createIntegration, deleteIntegration } from "./integrations.repositories.ts";
 
 export const generateAuthUrl = async(provider: string) => {
     switch (provider) {
@@ -53,4 +53,12 @@ export const exchangeGoogleCodeForTokens = async (code: string, userId: number) 
 
 export const getSupportedIntegrations = async () => {
     return ["google"];
+}
+
+export const revokeIntegration = async (provider: string, userId: number) => {
+    await deleteIntegration({
+        userId: userId,
+        provider: provider,
+    })
+    return { message: "Integration revoked!"};
 }

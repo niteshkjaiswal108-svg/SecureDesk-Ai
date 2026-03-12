@@ -32,3 +32,14 @@ export async function deleteIntegration(input: {
         .returning();
     return deleted[0];
 }
+
+export async function getIntegrations(input: {
+    userId: number,
+}) {
+    const { userId } = input;
+    const integrationsList = await db
+        .select()
+        .from(integrations)
+        .where(eq(integrations.user_id, userId));
+    return integrationsList;
+}

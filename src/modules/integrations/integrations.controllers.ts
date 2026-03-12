@@ -29,3 +29,13 @@ export const getSupportedIntegrations = async (req: Request, res: Response) => {
     const providers = await googleServices.getSupportedIntegrations();
     return res.json({ providers });
 }
+
+export const revokeIntegration = async (req: Request, res: Response) => {
+    const { provider } = req.params;
+    if (!provider) return res.status(400).json({ error: "Missing provider parameter" });
+    if (typeof provider !== "string") return res.status(400).json({ error: "Provider must be a string" });
+    const auth = (req as any).auth;
+    const userId = auth.payload.sub;
+    const revoked = await googleServices.revokeIntegration(provider, userId);
+    return res.json({ revoked });
+}

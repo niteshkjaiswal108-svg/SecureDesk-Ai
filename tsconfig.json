@@ -13,9 +13,9 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "module": "nodenext",
+    "module": "NodeNext",
     "target": "esnext",
-    "types": [],
+    "types": ["node", "jest"],
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],

@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { createIntegration, deleteIntegration } from "./integrations.repositories.ts";
+import { createIntegration, deleteIntegration, getIntegrations } from "./integrations.repositories.ts";
 
 export const generateAuthUrl = async(provider: string) => {
     switch (provider) {
@@ -61,4 +61,11 @@ export const revokeIntegration = async (provider: string, userId: number) => {
         provider: provider,
     })
     return { message: "Integration revoked!"};
+}
+
+export const getConnectedIntegrations = async (userId: number) => {
+    const integrations = await getIntegrations({
+        userId: userId,
+    })
+    return integrations;
 }

@@ -26,6 +26,6 @@ export const googleCallback = async (req: Request, res: Response) => {
 }
 
 export const getSupportedIntegrations = async (req: Request, res: Response) => {
-    const providers = await googleServices.getSupportedProviders();
+    const providers = await googleServices.getSupportedIntegrations();
     return res.json({ providers });
 }

@@ -51,6 +51,6 @@ export const exchangeGoogleCodeForTokens = async (code: string, userId: number) 
     return { message: "Google account connected!"};
 }
 
-export const getSupportedProviders = async () => {
+export const getSupportedIntegrations = async () => {
     return ["google"];
 }

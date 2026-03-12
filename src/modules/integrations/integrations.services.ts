@@ -1,4 +1,5 @@
 import type { Request, Response } from "express";
+import { createIntegration } from "./integrations.repositories.ts";
 
 export const generateAuthUrl = async(provider: string) => {
     switch (provider) {
@@ -21,7 +22,7 @@ export const generateGoogleAuthUrl = async () => {
     return url.toString();
 }
 
-export const exchangeGoogleCodeForTokens = async (code: string) => {
+export const exchangeGoogleCodeForTokens = async (code: string, userId: number) => {
     const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -39,6 +40,13 @@ export const exchangeGoogleCodeForTokens = async (code: string) => {
     }
 
     const tokens = await tokenResponse.json();
+
+    await createIntegration({
+        userId: userId,
+        provider: "google",
+        accessToken: tokens.access_token,
+        refreshToken: tokens.refresh_token,
+    })
     
-    return tokens;
+    return { message: "Google account connected!"};
 }

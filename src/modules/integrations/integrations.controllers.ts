@@ -12,14 +12,13 @@ export const connectIntegration = async (req: Request, res: Response) => {
 
 export const googleCallback = async (req: Request, res: Response) => {
     try {
+        const auth = (req as any).auth;
+        const userId = auth.payload.sub;
         const code = req.query.code as string;
         if (!code) return res.status(400).json({ error: "Missing code parameter" });
-        const tokens = await googleServices.exchangeGoogleCodeForTokens(code);
+        const connected = await googleServices.exchangeGoogleCodeForTokens(code, userId);
         
-        return res.json({ message: "Google account connected!", tokens: {
-            access_token: tokens.access_token,
-            refresh_token: tokens.refresh_token
-        } });
+        return res.json({ connected })
     } catch (error) {
         res.status(500).json({ error: "Failed to connect Google account" });
         logger.error("Failed to connect Google account", { error: (error as Error).message });

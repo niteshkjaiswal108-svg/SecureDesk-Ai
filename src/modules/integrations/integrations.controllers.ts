@@ -24,3 +24,8 @@ export const googleCallback = async (req: Request, res: Response) => {
         logger.error("Failed to connect Google account", { error: (error as Error).message });
     }
 }
+
+export const getSupportedIntegrations = async (req: Request, res: Response) => {
+    const providers = await googleServices.getSupportedProviders();
+    return res.json({ providers });
+}

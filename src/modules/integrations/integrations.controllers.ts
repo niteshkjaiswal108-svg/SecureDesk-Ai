@@ -15,6 +15,7 @@ export const googleCallback = async (req: Request, res: Response) => {
         const code = req.query.code as string;
         if (!code) return res.status(400).json({ error: "Missing code parameter" });
         const tokens = await googleServices.exchangeGoogleCodeForTokens(code);
+        
         return res.json({ message: "Google account connected!", tokens: {
             access_token: tokens.access_token,
             refresh_token: tokens.refresh_token

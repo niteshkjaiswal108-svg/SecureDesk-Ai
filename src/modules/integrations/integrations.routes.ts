@@ -6,3 +6,5 @@ const integrationRouter = Router();
 
 integrationRouter.post('/integrations/:provider/connect', isAuthenticated, connectIntegration)
 integrationRouter.get('/integrations/:provider/callback', isAuthenticated, googleCallback)
+
+export default integrationRouter;

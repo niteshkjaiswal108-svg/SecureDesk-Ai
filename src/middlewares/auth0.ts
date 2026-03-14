@@ -1,7 +1,16 @@
 import { auth } from "express-oauth2-jwt-bearer";
 
+const audience = process.env.AUTH0_AUDIENCE;
+const issuerBaseURL = process.env.AUTH0_ISSUER_BASE_URL;
+
+if (!audience || !issuerBaseURL) {
+    throw new Error(
+        "Missing Auth0 env: set AUTH0_AUDIENCE and AUTH0_ISSUER_BASE_URL in your .env file (see .env.example)."
+    );
+}
+
 export const isAuthenticated = auth({
-    audience: process.env.AUTH0_AUDIENCE!,
-    issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL!,
-    tokenSigningAlg: "RS256"
-})
+    audience,
+    issuerBaseURL,
+    tokenSigningAlg: "RS256",
+});

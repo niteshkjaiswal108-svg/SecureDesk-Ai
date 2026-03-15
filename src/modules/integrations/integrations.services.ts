@@ -94,7 +94,7 @@ export const exchangeLinkedinCodeForTokens = async (code: string, userId: number
 }
 
 export const getSupportedIntegrations = async () => {
-    return ["google"];
+    return ["google", "linkedin"];
 }
 
 export const revokeIntegration = async (provider: string, userId: number) => {

@@ -35,6 +35,17 @@ export const generateLinkedinAuthUrl = async () => {
     return url.toString();
 }
 
+export const exchangeCodeForTokens = async (code: string, userId: number, provider: string) => {
+    switch (provider) {
+        case "google":
+            return exchangeGoogleCodeForTokens(code, userId);
+        case "linkedin":
+            return exchangeLinkedinCodeForTokens(code, userId);
+        default:
+            throw new Error(`Unsupported provider: ${provider}`);
+    }
+}
+
 export const exchangeGoogleCodeForTokens = async (code: string, userId: number) => {
     const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
         method: "POST",

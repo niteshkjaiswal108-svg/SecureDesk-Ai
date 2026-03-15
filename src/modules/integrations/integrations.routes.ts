@@ -5,7 +5,7 @@ import { connectIntegration, getSupportedIntegrations, googleCallback } from './
 const integrationRouter = Router();
 
 integrationRouter.get('/supported', isAuthenticated, getSupportedIntegrations)
-integrationRouter.post('/integrations/:provider/connect', isAuthenticated, connectIntegration)
-integrationRouter.get('/integrations/:provider/callback', isAuthenticated, googleCallback)
+integrationRouter.post('/:provider/connect', isAuthenticated, connectIntegration)
+integrationRouter.get('/:provider/callback', isAuthenticated, googleCallback)
 
 export default integrationRouter;

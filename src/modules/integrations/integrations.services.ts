@@ -5,6 +5,8 @@ export const generateAuthUrl = async(provider: string) => {
     switch (provider) {
         case "google":
             return generateGoogleAuthUrl();
+        case "linkedin":
+            return generateLinkedinAuthUrl();
         default:
             throw new Error(`Unsupported provider: ${provider}`);
     }
@@ -29,7 +31,7 @@ export const generateLinkedinAuthUrl = async () => {
     url.searchParams.set("response_type", "code");
     url.searchParams.set("scope", "r_emailaddress r_liteprofile");
     url.searchParams.set("state", "random_state_string");
-    
+
     return url.toString();
 }
 

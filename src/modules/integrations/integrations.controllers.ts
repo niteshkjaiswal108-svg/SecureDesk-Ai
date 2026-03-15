@@ -10,32 +10,20 @@ export const connectIntegration = async (req: Request, res: Response) => {
     return res.redirect(url);
 }
 
-export const googleCallback = async (req: Request, res: Response) => {
+export const integrationCallback = async (req: Request, res: Response) => {
     try {
         const auth = (req as any).auth;
         const userId = auth.payload.sub;
         const code = req.query.code as string;
         if (!code) return res.status(400).json({ error: "Missing code parameter" });
-        const connected = await integrationServices.exchangeGoogleCodeForTokens(code, userId);
-        
+        const provider = req.params.provider;
+        if (!provider) return res.status(400).json({ error: "Missing provider parameter" });
+        if (typeof provider !== "string") return res.status(400).json({ error: "Provider must be a string" });
+        const connected = await integrationServices.exchangeCodeForTokens(code, userId, provider);
         return res.json({ connected })
     } catch (error) {
-        res.status(500).json({ error: "Failed to connect Google account" });
-        logger.error("Failed to connect Google account", { error: (error as Error).message });
-    }
-}
-
-export const linkedinCallback = async (req: Request, res: Response) => {
-    try {
-        const auth = (req as any).auth;
-        const userId = auth.payload.sub;
-        const code = req.query.code as string;
-        if (!code) return res.status(400).json({ error: "Missing code parameter" });
-        const connected = await integrationServices.exchangeLinkedinCodeForTokens(code, userId);
-        return res.json({ connected })
-    } catch (error) {
-        res.status(500).json({ error: "Failed to connect Linkedin account" });
-        logger.error("Failed to connect Linkedin account", { error: (error as Error).message });
+        res.status(500).json({ error: "Failed to connect integration" });
+        logger.error("Failed to connect integration", { error: (error as Error).message });
     }
 }
 

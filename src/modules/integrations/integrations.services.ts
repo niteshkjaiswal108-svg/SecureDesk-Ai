@@ -64,6 +64,35 @@ export const exchangeGoogleCodeForTokens = async (code: string, userId: number) 
     return { message: "Google account connected!"};
 }
 
+export const exchangeLinkedinCodeForTokens = async (code: string, userId: number) => {
+    const tokenResponse = await fetch("https://www.linkedin.com/oauth/v2/accessToken", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+            code,
+            client_id: process.env.LINKEDIN_CLIENT_ID!,
+            client_secret: process.env.LINKEDIN_CLIENT_SECRET!,
+            redirect_uri: process.env.LINKEDIN_REDIRECT_URI!,
+            grant_type: "authorization_code"
+        })
+    });
+
+    if (!tokenResponse.ok) {
+        throw new Error(`Linkedin token exchange failed: ${tokenResponse.statusText}`)
+    }
+
+    const tokens = await tokenResponse.json();
+
+    await createIntegration({
+        userId: userId,
+        provider: "linkedin",
+        accessToken: tokens.access_token,
+        refreshToken: tokens.refresh_token,
+    })
+    
+    return { message: "Linkedin account connected!"};
+}
+
 export const getSupportedIntegrations = async () => {
     return ["google"];
 }
